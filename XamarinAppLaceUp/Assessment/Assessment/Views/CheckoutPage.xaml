@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Assessment.Views.CheckoutPage">
+    <StackLayout>
+        <ListView ItemsSource="{Binding CheckoutProducts}"
+                  SelectedItem="{Binding SelectedProduct, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{Binding ImageUrl}" WidthRequest="50" HeightRequest="50"/>
+                            <Label Text="{Binding Name}" VerticalOptions="Center"/>
+                            <Label Text="{Binding Price}" VerticalOptions="Center"/>
+                            <Label Text="{Binding Quantity}" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Text="Go to Catalog" Command="{Binding NavigateToCatalogCommand}" />
+    </StackLayout>
+</ContentPage>
