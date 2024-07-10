@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Assessment.Views.ProductCatalogPage"
+             x:Name="ProductCatalog"
              Title="Products">
     <StackLayout>
         <Label 
@@ -63,13 +64,28 @@
                                     Text="{Binding Price, StringFormat='Price: {0:C}'}"
                                     VerticalOptions="Center"/>
                             </StackLayout>
-                            <Button 
-                                Text="+" 
-                                Margin="0,10"
-                                WidthRequest ="80"
-                                HorizontalOptions="EndAndExpand"
-                                Command="{Binding AddQuantityCommand}" 
-                                CommandParameter="{Binding .}"/>
+                            <StackLayout
+                                Spacing="0"
+                                HorizontalOptions="EndAndExpand">
+
+                                <Label
+                                    Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
+                                    HorizontalOptions="Center"></Label>
+                                
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Button 
+                                        Text="-" 
+                                        WidthRequest ="40"
+                                        Command="{Binding BindingContext.SubtractQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
+                                        CommandParameter="{Binding .}"/>
+                                    <Button 
+                                        Text="+" 
+                                        WidthRequest ="40"
+                                        Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
+                                        CommandParameter="{Binding .}"/>
+                                </StackLayout>
+                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -1,6 +1,5 @@
 ﻿using Assessment.Models;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 
@@ -8,28 +7,43 @@ namespace Assessment.ViewModels
 {
     public class CheckoutViewModel : ViewModelBase
     {
-        public ObservableCollection<Product> CheckoutProducts { get; set; }
-        public DelegateCommand<Product> EditQuantityCommand { get; set; }
+        public ObservableCollection<Product> FilteredProducts { get; set; }
         public DelegateCommand<Product> SelectProductCommand { get; set; }
         public DelegateCommand NavigateToCatalogCommand { get; set; }
 
-        public CheckoutViewModel(INavigationService navigationService) : base(navigationService)
+        private Product _selectedProduct;
+        public Product SelectedProduct
         {
-            CheckoutProducts = new ObservableCollection<Product>();
-            EditQuantityCommand = new DelegateCommand<Product>(OnEditQuantity);
-            SelectProductCommand = new DelegateCommand<Product>(OnSelectProduct);
-            NavigateToCatalogCommand = new DelegateCommand(OnNavigateToCatalog);
+            get => _selectedProduct;
+            set
+            {
+                SetProperty(ref _selectedProduct, value);
+                if (value != null)
+                {
+                    SelectProductCommand.Execute(value);
+                }
+            }
         }
 
-        private void OnEditQuantity(Product product)
+        public CheckoutViewModel(INavigationService navigationService) : base(navigationService)
         {
-            // Lógica para editar cantidad del producto
+            SelectProductCommand = new DelegateCommand<Product>(OnSelectProduct);
+            NavigateToCatalogCommand = new DelegateCommand(OnNavigateToCatalog);
         }
 
         private async void OnSelectProduct(Product product)
         {
             var parameters = new NavigationParameters { { "product", product } };
             await NavigationService.NavigateAsync("ProductDetailsPage", parameters);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey("products"))
+            {
+                FilteredProducts = parameters.GetValue<ObservableCollection<Product>>("products");
+                RaisePropertyChanged(nameof(FilteredProducts));
+            }
         }
 
         private async void OnNavigateToCatalog()
