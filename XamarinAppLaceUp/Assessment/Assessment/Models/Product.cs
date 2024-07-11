@@ -8,7 +8,7 @@ namespace Assessment.Models
         private string _name;
         private double _price;
         private string _imageUrl;
-        private int _quantity;
+        private string _quantity;
 
         public string Name
         {
@@ -49,7 +49,7 @@ namespace Assessment.Models
             }
         }
 
-        public int Quantity
+        public string Quantity
         {
             get => _quantity;
             set
@@ -59,6 +59,19 @@ namespace Assessment.Models
                     _quantity = value;
                     OnPropertyChanged(nameof(Quantity));
                 }
+                if (_quantity == "0")
+                {
+                    _quantity = "+";
+                    OnPropertyChanged(nameof(Quantity));
+                }
+            }
+        }
+
+        public Product()
+        {
+            if (string.IsNullOrEmpty(_quantity))
+            {
+                _quantity = "+";
             }
         }
 

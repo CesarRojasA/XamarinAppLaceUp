@@ -19,7 +19,7 @@ namespace Assessment
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/ProductCatalogPage");
+            await NavigationService.NavigateAsync("/CheckoutPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

@@ -112,12 +112,13 @@ namespace Assessment.Models
             Products = new ObservableCollection<Product>();
             Products.CollectionChanged += (sender, e) => UpdateTotal();
             Lines = Products.Count();
+            Quantity = Products.Sum(x => int.Parse(x.Quantity));
         }
 
         public void UpdateTotal()
         {
-            Subtotal = Products.Sum(p => p.Price * p.Quantity);
-            Quantity = Products.Sum(p => p.Quantity);
+            Subtotal = Products.Sum(x => x.Price * int.Parse(x.Quantity));
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

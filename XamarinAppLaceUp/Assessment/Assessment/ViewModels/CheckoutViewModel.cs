@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 namespace Assessment.ViewModels
 {
@@ -10,6 +11,7 @@ namespace Assessment.ViewModels
         public DelegateCommand<Product> SelectProductCommand { get; set; }
         public DelegateCommand<Product> AddQuantityCommand { get; set; }
         public DelegateCommand<Product> SubtractQuantityCommand { get; set; }
+        public DelegateCommand NavigateToCatalogCommand { get; set; }
 
         private Checkout _checkout;
         public Checkout Checkout
@@ -33,30 +35,50 @@ namespace Assessment.ViewModels
                     SelectProductCommand.Execute(value);
                 }
             }
+        }        
+        
+        private bool _isVisibleButtonGotoCatalog = true;
+        public bool IsVisibleButtonGotoCatalog 
+        {
+            get => _isVisibleButtonGotoCatalog;
+            set
+            {
+                SetProperty(ref _isVisibleButtonGotoCatalog, value);
+            }
         }
 
         public CheckoutViewModel(INavigationService navigationService) : base(navigationService)
         {
             SelectProductCommand = new DelegateCommand<Product>(OnSelectProduct);
             AddQuantityCommand = new DelegateCommand<Product>(OnAddQuantity);
-            SubtractQuantityCommand = new DelegateCommand<Product>(OnSubtractQuantity);
+            NavigateToCatalogCommand = new DelegateCommand(OnNavigateToCatalog);
         }
 
-        private void OnAddQuantity(Product product)
+        private async void OnAddQuantity(Product product)
         {
             if (product != null)
             {
-                product.Quantity += 1;
-                Checkout.UpdateTotal();
-            }
-        }
+                string result = await Application.Current.MainPage.DisplayPromptAsync(
+                               "Enter a number",
+                               "Please enter a number below:",
+                               "OK",
+                               "Cancel",
+                               keyboard: Keyboard.Numeric);
 
-        private void OnSubtractQuantity(Product product)
-        {
-            if (product != null && product.Quantity > 0)
-            {
-                product.Quantity -= 1;
-                Checkout.UpdateTotal();
+                if (result == null)
+                {
+                    return;
+                }
+
+                if (int.TryParse(result, out var quantity) && quantity >= 0)
+                {
+                    product.Quantity = quantity.ToString();
+                    if (quantity == 0)
+                    {
+                        Checkout.Products.Remove(product);
+                    }
+                    Checkout.UpdateTotal();
+                }
             }
         }
 
@@ -68,17 +90,26 @@ namespace Assessment.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            Checkout = new Checkout();
             if (parameters.ContainsKey("products"))
             {
-                Checkout = new Checkout();
                 Checkout.Products = parameters.GetValue<ObservableCollection<Product>>("products");
-                RaisePropertyChanged(nameof(Checkout));
+            }
+            RaisePropertyChanged(nameof(Checkout));
+
+            if (parameters.ContainsKey("isVisibleButtonGotoCatalog"))
+            {
+                IsVisibleButtonGotoCatalog = parameters.GetValue<bool>("isVisibleButtonGotoCatalog");
             }
         }
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
             SelectedProduct = null;
+        }
+        private async void OnNavigateToCatalog()
+        {
+            await NavigationService.NavigateAsync("NavigationPage/ProductCatalogPage");
         }
     }
 }

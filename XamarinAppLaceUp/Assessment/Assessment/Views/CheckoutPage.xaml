@@ -40,57 +40,52 @@
             </StackLayout>
         </StackLayout>
 
-        <CollectionView 
+        <ListView 
             ItemsSource="{Binding Checkout.Products}"
-            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
+            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+            RowHeight="100">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout 
-                        BackgroundColor="#FFFFFF"
-                        Orientation="Horizontal"
-                        HorizontalOptions="Fill"
-                        Margin="0,3"
-                        Padding="3">
-                        <Image 
-                            Source="{Binding ImageUrl}"
-                            HeightRequest="100"
-                            WidthRequest="100"/>
-                        <StackLayout
-                            VerticalOptions="Center">
-                            <Label 
-                                Text="{Binding Name}" 
-                                FontSize="Subtitle"
-                                FontAttributes="Bold"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
-                        <StackLayout
-                            Spacing="0"
-                            HorizontalOptions="EndAndExpand">
-
-                            <Label
-                                Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
-                                HorizontalOptions="Center"></Label>
-
+                    <ViewCell>
+                        <StackLayout 
+                            BackgroundColor="#FFFFFF"
+                            Orientation="Horizontal"
+                            HorizontalOptions="Fill"
+                            Margin="0,3"
+                            Padding="3">
+                            <Image 
+                                Source="{Binding ImageUrl}"
+                                HeightRequest="100"
+                                WidthRequest="100"/>
                             <StackLayout
-                                Orientation="Horizontal">
-                                <Button 
-                                    Text="-" 
-                                    WidthRequest ="40"
-                                    Command="{Binding BindingContext.SubtractQuantityCommand, Source={x:Reference Name=Checkout}}" 
-                                    CommandParameter="{Binding .}"/>
-                                <Button 
-                                    Text="+" 
-                                    WidthRequest ="40"
-                                    Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=Checkout}}" 
-                                    CommandParameter="{Binding .}"/>
+                                VerticalOptions="Center">
+                                <Label 
+                                    Text="{Binding Name}" 
+                                    FontSize="Subtitle"
+                                    FontAttributes="Bold"
+                                    VerticalOptions="Center"
+                                    MaxLines="3"
+                                    LineBreakMode="TailTruncation"/>
+                                <Label 
+                                    Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                    VerticalOptions="Center"/>
                             </StackLayout>
+
+                            <Button 
+                                Text="{Binding Quantity}" 
+                                Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=Checkout}}" 
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="EndAndExpand"
+                                Margin="5,10"
+                                FontSize="Subtitle"/>
                         </StackLayout>
-                    </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button 
+            Text="Go to Catalog" 
+            Command="{Binding NavigateToCatalogCommand}" 
+            IsVisible="{Binding IsVisibleButtonGotoCatalog}"/>
     </StackLayout>
 </ContentPage>

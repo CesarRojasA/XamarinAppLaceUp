@@ -5,7 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Assessment.Views.ProductCatalogPage"
              x:Name="ProductCatalog"
-             Title="Products">
+             Title="Products"
+             BackgroundColor="Transparent">
     <StackLayout>
         <Label 
             HorizontalOptions="Center"
@@ -17,76 +18,69 @@
             Text="Vegetables/ Fruits" 
             FontSize="Small"
             TextColor="#3A83AA"/>
-        <Frame
-            Margin="10"
-            Padding="0">
-            <StackLayout
-                Orientation="Horizontal">
+        <StackLayout
+            Orientation="Horizontal">
+            <Frame
+                Margin="5"
+                Padding="0">
                 <SearchBar 
                     Opacity=".7"
                     FontSize="Subtitle"
                     Placeholder="Search products..." 
                     Text="{Binding SearchText}" />
-                <ImageButton
-                    Command="{Binding GoToCheckoutCommand}"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    Source="https://cdn-icons-png.freepik.com/512/8146/8146003.png"/>
-            </StackLayout>
+            </Frame>
             
-        </Frame>
-        <CollectionView 
+            <ImageButton
+                HorizontalOptions="EndAndExpand"
+                Command="{Binding GoToCheckoutCommand}"
+                WidthRequest="30"
+                HeightRequest="30"
+                Margin="10"
+                BackgroundColor="Transparent"
+                Source="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"/>
+        </StackLayout>
+        
+        <ListView 
             ItemsSource="{Binding FilteredProducts}"
-            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}">
-            <CollectionView.ItemTemplate>
+            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+            RowHeight="100">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout 
-                        BackgroundColor="#FFFFFF"
-                        Orientation="Horizontal"
-                        HorizontalOptions="Fill"
-                        Margin="0,3"
-                        Padding="3">
-                        <Image 
-                            Source="{Binding ImageUrl}"
-                            HeightRequest="100"
-                            WidthRequest="100"/>
-                        <StackLayout
-                            VerticalOptions="Center">
-                            <Label 
-                                Text="{Binding Name}" 
-                                FontSize="Subtitle"
-                                FontAttributes="Bold"
-                                VerticalOptions="Center"/>
-                            <Label 
-                                Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
-                        <StackLayout
-                            Spacing="0"
-                            HorizontalOptions="EndAndExpand">
-
-                            <Label
-                                Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
-                                HorizontalOptions="Center"></Label>
-
+                    <ViewCell>
+                        <StackLayout 
+                            BackgroundColor="#FFFFFF"
+                            Orientation="Horizontal"
+                            HorizontalOptions="Fill"
+                            Margin="0,3"
+                            Padding="3">
+                            <Image 
+                                Source="{Binding ImageUrl}"
+                                HeightRequest="100"
+                                WidthRequest="100"/>
                             <StackLayout
-                                Orientation="Horizontal">
-                                <Button 
-                                    Text="-" 
-                                    WidthRequest ="40"
-                                    Command="{Binding BindingContext.SubtractQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
-                                    CommandParameter="{Binding .}"/>
-                                <Button 
-                                    Text="+" 
-                                    WidthRequest ="40"
-                                    Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
-                                    CommandParameter="{Binding .}"/>
+                                VerticalOptions="Center">
+                                <Label 
+                                    Text="{Binding Name}" 
+                                    FontSize="Subtitle"
+                                    FontAttributes="Bold"
+                                    VerticalOptions="Center"
+                                    MaxLines="3"
+                                    LineBreakMode="TailTruncation"/>
+                                <Label 
+                                    Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                    VerticalOptions="Center"/>
                             </StackLayout>
+                            <Button 
+                                Text="{Binding Quantity}" 
+                                Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="EndAndExpand"
+                                Margin="5,10"
+                                FontSize="Subtitle"/>
                         </StackLayout>
-                    </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </ContentPage>
