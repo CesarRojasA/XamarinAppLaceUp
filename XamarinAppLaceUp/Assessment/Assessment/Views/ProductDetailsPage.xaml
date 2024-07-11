@@ -4,23 +4,27 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Assessment.Views.ProductDetailsPage"
-             Title="{Binding Product.Name}">
+             Title="{Binding Product.Name, StringFormat= '{0} Details'}">
     <StackLayout 
-        HorizontalOptions="Center"
-        Padding="10">
+        Padding="10"
+        Orientation="Horizontal"
+        VerticalOptions="Start"
+        BackgroundColor="#FFFFFF">
         <Image 
             Source="{Binding Product.ImageUrl}" 
-            WidthRequest="100" 
-            HeightRequest="100"/>
-        <Label 
-            Text="{Binding Product.Name}"
-            HorizontalTextAlignment="Center"
-            FontSize="Title"
-            FontAttributes="Bold"
-            VerticalOptions="Center"/>
-        <Label 
-            Text="{Binding Product.Price, StringFormat='Price: {0:C}'}"
-            HorizontalTextAlignment="Center"
-            FontSize="Subtitle"/>
+            WidthRequest="150" 
+            HeightRequest="150"/>
+        <StackLayout
+            Padding="10"
+            VerticalOptions="Center">
+            <Label 
+                Text="{Binding Product.Name}"
+                FontSize="Title"
+                FontAttributes="Bold"
+                TextColor="#3A83AA"/>
+            <Label 
+                Text="{Binding Product.Price, StringFormat='Price: {0:C}'}"
+                FontSize="Subtitle"/>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

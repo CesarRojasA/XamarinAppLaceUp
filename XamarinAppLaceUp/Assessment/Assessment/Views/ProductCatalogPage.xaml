@@ -36,60 +36,57 @@
             </StackLayout>
             
         </Frame>
-        <ListView 
+        <CollectionView 
             ItemsSource="{Binding FilteredProducts}"
-            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-            RowHeight="80">
-            <ListView.ItemTemplate>
+            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout 
-                            BackgroundColor="#FFFFFF"
-                            Orientation="Horizontal"
-                            HorizontalOptions="Fill"
-                            Margin="0,3"
-                            Padding="3">
-                            <Image 
-                                Source="{Binding ImageUrl}"
-                                HeightRequest="100"
-                                WidthRequest="100"/>
-                            <StackLayout
-                                VerticalOptions="Center">
-                                <Label 
-                                    Text="{Binding Name}" 
-                                    FontSize="Subtitle"
-                                    FontAttributes="Bold"
-                                    VerticalOptions="Center"/>
-                                <Label 
-                                    Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                    VerticalOptions="Center"/>
-                            </StackLayout>
-                            <StackLayout
-                                Spacing="0"
-                                HorizontalOptions="EndAndExpand">
+                    <StackLayout 
+                        BackgroundColor="#FFFFFF"
+                        Orientation="Horizontal"
+                        HorizontalOptions="Fill"
+                        Margin="0,3"
+                        Padding="3">
+                        <Image 
+                            Source="{Binding ImageUrl}"
+                            HeightRequest="100"
+                            WidthRequest="100"/>
+                        <StackLayout
+                            VerticalOptions="Center">
+                            <Label 
+                                Text="{Binding Name}" 
+                                FontSize="Subtitle"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"/>
+                            <Label 
+                                Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                        <StackLayout
+                            Spacing="0"
+                            HorizontalOptions="EndAndExpand">
 
-                                <Label
-                                    Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
-                                    HorizontalOptions="Center"></Label>
-                                
-                                <StackLayout
-                                    Orientation="Horizontal">
-                                    <Button 
-                                        Text="-" 
-                                        WidthRequest ="40"
-                                        Command="{Binding BindingContext.SubtractQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
-                                        CommandParameter="{Binding .}"/>
-                                    <Button 
-                                        Text="+" 
-                                        WidthRequest ="40"
-                                        Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
-                                        CommandParameter="{Binding .}"/>
-                                </StackLayout>
+                            <Label
+                                Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
+                                HorizontalOptions="Center"></Label>
+
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Button 
+                                    Text="-" 
+                                    WidthRequest ="40"
+                                    Command="{Binding BindingContext.SubtractQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
+                                    CommandParameter="{Binding .}"/>
+                                <Button 
+                                    Text="+" 
+                                    WidthRequest ="40"
+                                    Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
+                                    CommandParameter="{Binding .}"/>
                             </StackLayout>
                         </StackLayout>
-                    </ViewCell>
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>

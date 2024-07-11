@@ -7,9 +7,19 @@ namespace Assessment.ViewModels
 {
     public class CheckoutViewModel : ViewModelBase
     {
-        public ObservableCollection<Product> FilteredProducts { get; set; }
         public DelegateCommand<Product> SelectProductCommand { get; set; }
-        public DelegateCommand NavigateToCatalogCommand { get; set; }
+        public DelegateCommand<Product> AddQuantityCommand { get; set; }
+        public DelegateCommand<Product> SubtractQuantityCommand { get; set; }
+
+        private Checkout _checkout;
+        public Checkout Checkout
+        {
+            get => _checkout;
+            set
+            {
+                SetProperty(ref _checkout, value);
+            }
+        }
 
         private Product _selectedProduct;
         public Product SelectedProduct
@@ -28,7 +38,26 @@ namespace Assessment.ViewModels
         public CheckoutViewModel(INavigationService navigationService) : base(navigationService)
         {
             SelectProductCommand = new DelegateCommand<Product>(OnSelectProduct);
-            NavigateToCatalogCommand = new DelegateCommand(OnNavigateToCatalog);
+            AddQuantityCommand = new DelegateCommand<Product>(OnAddQuantity);
+            SubtractQuantityCommand = new DelegateCommand<Product>(OnSubtractQuantity);
+        }
+
+        private void OnAddQuantity(Product product)
+        {
+            if (product != null)
+            {
+                product.Quantity += 1;
+                Checkout.UpdateTotal();
+            }
+        }
+
+        private void OnSubtractQuantity(Product product)
+        {
+            if (product != null && product.Quantity > 0)
+            {
+                product.Quantity -= 1;
+                Checkout.UpdateTotal();
+            }
         }
 
         private async void OnSelectProduct(Product product)
@@ -41,14 +70,15 @@ namespace Assessment.ViewModels
         {
             if (parameters.ContainsKey("products"))
             {
-                FilteredProducts = parameters.GetValue<ObservableCollection<Product>>("products");
-                RaisePropertyChanged(nameof(FilteredProducts));
+                Checkout = new Checkout();
+                Checkout.Products = parameters.GetValue<ObservableCollection<Product>>("products");
+                RaisePropertyChanged(nameof(Checkout));
             }
         }
-
-        private async void OnNavigateToCatalog()
+        public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            await NavigationService.NavigateAsync("ProductCatalogPage");
+            base.OnNavigatedFrom(parameters);
+            SelectedProduct = null;
         }
     }
 }
