@@ -5,54 +5,52 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Assessment.Views.ProductCatalogPage"
              x:Name="ProductCatalog"
-             Title="Products"
-             BackgroundColor="Transparent">
+             Title="Products">
+
     <StackLayout>
-        <Label 
-            HorizontalOptions="Center"
-            Margin="0,10,0,0"
-            Text="2069 - ARIA RESORT AND CASINO" 
-            FontSize="Large"/>
-        <Label 
-            HorizontalOptions="Center"
-            Text="Vegetables/ Fruits" 
-            FontSize="Small"
-            TextColor="#3A83AA"/>
+        <Label Style="{StaticResource LabelHeaderTittleStyle}"/>
+        <Label Style="{StaticResource LabelHeaderSubtittleStyle}"/>
+
+        <!--SearchBar and Checkout icon-->
         <StackLayout
             Orientation="Horizontal">
             <Frame
-                Margin="5"
-                Padding="0">
+                Style="{StaticResource FrameSearchBarStyle}">
                 <SearchBar 
-                    Opacity=".7"
-                    FontSize="Subtitle"
-                    Placeholder="Search products..." 
+                    Style="{StaticResource SearchBarStyle}"
                     Text="{Binding SearchText}" />
             </Frame>
-            
-            <ImageButton
-                HorizontalOptions="EndAndExpand"
-                Command="{Binding GoToCheckoutCommand}"
-                WidthRequest="30"
-                HeightRequest="30"
-                Margin="10"
-                BackgroundColor="Transparent"
-                Source="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"/>
+            <Frame
+                Style="{StaticResource FrameCarStyle}">
+                <ImageButton
+                    Command="{Binding GoToCheckoutCommand}"
+                    Style="{StaticResource ImageButtonCarStyle}"/>
+            </Frame>
         </StackLayout>
-        
+
+        <!--Filter (No funcional)-->
+        <StackLayout
+            Padding="10,0"
+            Orientation="Horizontal">
+            <Label
+                Text="Filter"
+                TextColor="#3A83AA"/>
+            <Label
+                HorizontalOptions="EndAndExpand"
+                Text="Sort By: Product Name"
+                TextColor="#3A83AA"/>
+        </StackLayout>
+
+        <!--List of available products-->
         <ListView 
             ItemsSource="{Binding FilteredProducts}"
             SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-            RowHeight="100">
+            RowHeight="110">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
+                    <ViewCell Appearing="ViewCell_Appearing">
                         <StackLayout 
-                            BackgroundColor="#FFFFFF"
-                            Orientation="Horizontal"
-                            HorizontalOptions="Fill"
-                            Margin="0,3"
-                            Padding="3">
+                            Style="{StaticResource StackLayoutCellStyle}">
                             <Image 
                                 Source="{Binding ImageUrl}"
                                 HeightRequest="100"
@@ -61,26 +59,22 @@
                                 VerticalOptions="Center">
                                 <Label 
                                     Text="{Binding Name}" 
-                                    FontSize="Subtitle"
-                                    FontAttributes="Bold"
-                                    VerticalOptions="Center"
-                                    MaxLines="3"
-                                    LineBreakMode="TailTruncation"/>
+                                    Style="{StaticResource LabelNameStyle}"/>
                                 <Label 
                                     Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                    VerticalOptions="Center"/>
+                                    VerticalOptions="Center"
+                                    TextColor="#3A83AA"/>
                             </StackLayout>
                             <Button 
                                 Text="{Binding Quantity}" 
                                 Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=ProductCatalog}}" 
                                 CommandParameter="{Binding .}"
-                                HorizontalOptions="EndAndExpand"
-                                Margin="5,10"
-                                FontSize="Subtitle"/>
+                                Style="{StaticResource ButtonQuantityStyle}"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
     </StackLayout>
 </ContentPage>

@@ -5,6 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Assessment.Views.ProductDetailsPage"
              Title="{Binding Product.Name, StringFormat= '{0} Details'}">
+    
+    <!--Productos Details--> 
     <StackLayout 
         Padding="10"
         Orientation="Horizontal"

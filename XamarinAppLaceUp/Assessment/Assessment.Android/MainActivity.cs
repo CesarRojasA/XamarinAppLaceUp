@@ -6,7 +6,7 @@ using Prism.Ioc;
 
 namespace Assessment.Droid
 {
-    [Activity(Theme = "@style/MainTheme",
+    [Activity(Icon = "@drawable/logo_dev", Theme = "@style/MainTheme",
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {

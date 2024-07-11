@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using SQLite;
+using System.ComponentModel;
 
 namespace Assessment.Models
 {
     public class Product : INotifyPropertyChanged
     {
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
+
         private string _name;
         private double _price;
         private string _imageUrl;

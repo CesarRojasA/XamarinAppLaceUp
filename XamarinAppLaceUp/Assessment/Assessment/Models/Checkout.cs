@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using SQLite;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -6,6 +7,9 @@ namespace Assessment.Models
 {
     public class Checkout : INotifyPropertyChanged
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
         private ObservableCollection<Product> _products;
         private double _total;
         private double _subtotal;
@@ -15,6 +19,7 @@ namespace Assessment.Models
         private int _quantity;
         public string Term { get; set; } = "NET 60";
 
+        [Ignore]
         public ObservableCollection<Product> Products
         {
             get => _products;
@@ -24,7 +29,7 @@ namespace Assessment.Models
                 {
                     _products = value;
                     OnPropertyChanged(nameof(Products));
-                    UpdateTotal();
+                    Update();
                 }
             }
         }
@@ -80,7 +85,7 @@ namespace Assessment.Models
                 }
             }
         }
-        
+
         public int Lines
         {
             get => _lines;
@@ -93,7 +98,7 @@ namespace Assessment.Models
                 }
             }
         }
-        
+
         public int Quantity
         {
             get => _quantity;
@@ -110,15 +115,18 @@ namespace Assessment.Models
         public Checkout()
         {
             Products = new ObservableCollection<Product>();
-            Products.CollectionChanged += (sender, e) => UpdateTotal();
-            Lines = Products.Count();
-            Quantity = Products.Sum(x => int.Parse(x.Quantity));
+            Products.CollectionChanged += (sender, e) => Update();
+
         }
 
-        public void UpdateTotal()
+        public void Update()
         {
             Subtotal = Products.Sum(x => x.Price * int.Parse(x.Quantity));
-            
+            Quantity = Products.Sum(x => int.Parse(x.Quantity));
+            Tax = Subtotal * 0.05;
+            Discount = Subtotal * 0.03;
+            Total = Subtotal + Discount + Tax; 
+            Lines = Products.Count;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

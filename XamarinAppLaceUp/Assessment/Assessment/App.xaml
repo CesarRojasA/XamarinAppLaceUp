@@ -3,9 +3,75 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              x:Class="Assessment.App">
-  <Application.Resources>
-
-    <!-- Application resource dictionary -->
-
-  </Application.Resources>
+    <Application.Resources>
+        <Style TargetType="Label" x:Key="LabelHeaderTittleStyle">
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Text" Value="2069 - ARIA RESORT AND CASINO"/>
+            <Setter Property="FontSize" Value="Large"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LabelHeaderSubtittleStyle">
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="Text" Value="Vegetables/ Fruits"/>
+            <Setter Property="FontSize" Value="Small"/>
+            <Setter Property="TextColor" Value="#3A83AA"/>
+        </Style>
+        <Style TargetType="Frame" x:Key="FrameSearchBarStyle">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HasShadow" Value="False"/>
+        </Style>
+        <Style TargetType="SearchBar" x:Key="SearchBarStyle">
+            <Setter Property="Opacity" Value=".7"/>
+            <Setter Property="FontSize" Value="Subtitle"/>
+            <Setter Property="Placeholder" Value="Search products..."/>
+            <Setter Property="PlaceholderColor" Value="#3A83AA"/>
+            <Setter Property="CancelButtonColor" Value="#3A83AA"/>
+        </Style>
+        <Style TargetType="Frame" x:Key="FrameCarStyle">
+            <Setter Property="CornerRadius" Value="25"/>
+            <Setter Property="HasShadow" Value="False"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+        </Style>
+        <Style TargetType="ImageButton" x:Key="ImageButtonCarStyle">
+            <Setter Property="WidthRequest" Value="25"/>
+            <Setter Property="HeightRequest" Value="25"/>
+            <Setter Property="Source" Value="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"/>
+        </Style>
+        <Style TargetType="StackLayout" x:Key="StackLayoutCellStyle">
+            <Setter Property="BackgroundColor" Value="#FFFFFF"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="HorizontalOptions" Value="Fill"/>
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+        <Style TargetType="Label" x:Key="LabelNameStyle">
+            <Setter Property="FontSize" Value="Subtitle"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="MaxLines" Value="3"/>
+            <Setter Property="LineBreakMode" Value="TailTruncation"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonQuantityStyle">
+            <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+            <Setter Property="Margin" Value="5,25"/>
+            <Setter Property="WidthRequest" Value="70"/>
+            <Setter Property="FontSize" Value="Subtitle"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="BackgroundColor" Value="#3A83AA"/>
+        </Style>
+        <Style TargetType="StackLayout" x:Key="StackLayoutPanelCheckoutStyle">
+            <Setter Property="BackgroundColor" Value="#D5D5D5"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonMenuCheckoutStyle">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="TextColor" Value="#3A83AA"/>
+        </Style>
+    </Application.Resources>
 </prism:PrismApplication>

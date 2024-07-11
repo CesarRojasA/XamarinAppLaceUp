@@ -8,19 +8,12 @@ namespace Assessment.ViewModels
 {
     public class CheckoutViewModel : ViewModelBase
     {
-        public DelegateCommand<Product> SelectProductCommand { get; set; }
-        public DelegateCommand<Product> AddQuantityCommand { get; set; }
-        public DelegateCommand<Product> SubtractQuantityCommand { get; set; }
-        public DelegateCommand NavigateToCatalogCommand { get; set; }
-
+        #region Properties
         private Checkout _checkout;
         public Checkout Checkout
         {
             get => _checkout;
-            set
-            {
-                SetProperty(ref _checkout, value);
-            }
+            set => SetProperty(ref _checkout, value);
         }
 
         private Product _selectedProduct;
@@ -35,25 +28,39 @@ namespace Assessment.ViewModels
                     SelectProductCommand.Execute(value);
                 }
             }
-        }        
-        
-        private bool _isVisibleButtonGotoCatalog = true;
-        public bool IsVisibleButtonGotoCatalog 
-        {
-            get => _isVisibleButtonGotoCatalog;
-            set
-            {
-                SetProperty(ref _isVisibleButtonGotoCatalog, value);
-            }
         }
 
+        private bool _isVisibleControlsInit = true;
+        public bool IsVisibleControlsInit
+        {
+            get => _isVisibleControlsInit;
+            set => SetProperty(ref _isVisibleControlsInit, value);
+        }
+        #endregion
+
+        #region Commands
+        public DelegateCommand<Product> SelectProductCommand { get; private set; }
+        public DelegateCommand<Product> AddQuantityCommand { get; private set; }
+        public DelegateCommand NavigateToCatalogCommand { get; private set; }
+        #endregion
+
+        #region Constructor
         public CheckoutViewModel(INavigationService navigationService) : base(navigationService)
+        {
+            InitializeCommands();
+        }
+        #endregion
+
+        #region Initialization Methods
+        private void InitializeCommands()
         {
             SelectProductCommand = new DelegateCommand<Product>(OnSelectProduct);
             AddQuantityCommand = new DelegateCommand<Product>(OnAddQuantity);
             NavigateToCatalogCommand = new DelegateCommand(OnNavigateToCatalog);
         }
+        #endregion
 
+        #region Command Methods
         private async void OnAddQuantity(Product product)
         {
             if (product != null)
@@ -65,19 +72,14 @@ namespace Assessment.ViewModels
                                "Cancel",
                                keyboard: Keyboard.Numeric);
 
-                if (result == null)
-                {
-                    return;
-                }
-
-                if (int.TryParse(result, out var quantity) && quantity >= 0)
+                if (result != null && int.TryParse(result, out var quantity) && quantity >= 0)
                 {
                     product.Quantity = quantity.ToString();
                     if (quantity == 0)
                     {
                         Checkout.Products.Remove(product);
                     }
-                    Checkout.UpdateTotal();
+                    Checkout.Update();
                 }
             }
         }
@@ -88,6 +90,13 @@ namespace Assessment.ViewModels
             await NavigationService.NavigateAsync("ProductDetailsPage", parameters);
         }
 
+        private async void OnNavigateToCatalog()
+        {
+            await NavigationService.NavigateAsync("NavigationPage/ProductCatalogPage");
+        }
+        #endregion
+
+        #region Navigation Methods
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             Checkout = new Checkout();
@@ -97,19 +106,17 @@ namespace Assessment.ViewModels
             }
             RaisePropertyChanged(nameof(Checkout));
 
-            if (parameters.ContainsKey("isVisibleButtonGotoCatalog"))
+            if (parameters.ContainsKey("isVisibleControlsInit"))
             {
-                IsVisibleButtonGotoCatalog = parameters.GetValue<bool>("isVisibleButtonGotoCatalog");
+                IsVisibleControlsInit = parameters.GetValue<bool>("isVisibleControlsInit");
             }
         }
+
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
             SelectedProduct = null;
         }
-        private async void OnNavigateToCatalog()
-        {
-            await NavigationService.NavigateAsync("NavigationPage/ProductCatalogPage");
-        }
+        #endregion
     }
 }
