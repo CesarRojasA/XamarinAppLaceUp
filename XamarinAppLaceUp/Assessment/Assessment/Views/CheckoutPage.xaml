@@ -3,85 +3,89 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:res="clr-namespace:Assessment.Resources"
              x:Class="Assessment.Views.CheckoutPage"
              x:Name="Checkout"
              Title="Checkout">
     <StackLayout>
-        <Label Style="{StaticResource LabelHeaderTittleStyle}"/>
-        
-        <!--Panel Checkout-->
         <StackLayout
-            Style="{StaticResource StackLayoutPanelCheckoutStyle}">
-            <StackLayout>
-                <Label
-                    Text="{Binding Checkout.Lines, StringFormat= 'Lines: {0}'}"></Label>
-                <Label
-                    Text="{Binding Checkout.Quantity, StringFormat= 'Quantity: {0}'}"></Label>
-                <Label
-                    Text="{Binding Checkout.Term, StringFormat= 'Term: {0}'}"></Label>
-            </StackLayout>
+            VerticalOptions="FillAndExpand">
+            <Label Style="{StaticResource LabelHeaderTittleStyle}"/>
+        
+            <!--Panel Checkout-->
             <StackLayout
-                HorizontalOptions="CenterAndExpand">
-                <Label
-                    Text="{Binding Checkout.Subtotal, StringFormat= 'Subtotal: {0:c}'}"></Label>
-                <Label
-                    Text="{Binding Checkout.Discount, StringFormat= 'Discount (3%): {0:c}'}"></Label>
+                Style="{StaticResource StackLayoutPanelCheckoutStyle}">
+                <StackLayout>
+                    <Label
+                        Text="{Binding Checkout.Lines, StringFormat= 'Lines: {0}'}"></Label>
+                    <Label
+                        Text="{Binding Checkout.Quantity, StringFormat= 'Quantity: {0}'}"></Label>
+                    <Label
+                        Text="{Binding Checkout.Term, StringFormat= 'Term: {0}'}"></Label>
+                </StackLayout>
+                <StackLayout
+                    HorizontalOptions="CenterAndExpand">
+                    <Label
+                        Text="{Binding Checkout.Subtotal, StringFormat= 'Subtotal: {0:c}'}"></Label>
+                    <Label
+                        Text="{Binding Checkout.Discount, StringFormat= 'Discount (3%): {0:c}'}"></Label>
+                </StackLayout>
+                <StackLayout>
+                    <Label
+                        Text="{Binding Checkout.Tax, StringFormat= 'Tax (5%): {0:c}'}"></Label>
+                    <Label
+                        Text="{Binding Checkout.Total, StringFormat= 'Total: {0:c}'}"></Label>
+                </StackLayout>
             </StackLayout>
-            <StackLayout>
-                <Label
-                    Text="{Binding Checkout.Tax, StringFormat= 'Tax (5%): {0:c}'}"></Label>
-                <Label
-                    Text="{Binding Checkout.Total, StringFormat= 'Total: {0:c}'}"></Label>
-            </StackLayout>
-        </StackLayout>
         
-        <BoxView
-            Color="Black"
-            HeightRequest=".1"
-            Margin="0,5"></BoxView>
+            <BoxView
+                Color="Black"
+                HeightRequest=".1"
+                Margin="0,5"></BoxView>
         
-        <!--Label List empty-->
-        <Label
-            Text="There are no products selected, please enter the catalog and add products to your order."
-            Margin="10"
-            HorizontalTextAlignment="Center"
-            IsVisible="{Binding IsVisibleControlsInit}"></Label>
+            <!--Label List empty-->
+            <Label
+                Text="{x:Static res:CheckoutResource.LabelListEmpty}"
+                Margin="10"
+                HorizontalTextAlignment="Center"
+                IsVisible="{Binding IsVisibleControlsInit}"></Label>
 
-        <!--List of available products-->
-        <ListView 
-            ItemsSource="{Binding FilteredProducts}"
-            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
-            RowHeight="110">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell Appearing="ViewCell_Appearing">
-                        <StackLayout 
-                            Style="{StaticResource StackLayoutCellStyle}">
-                            <Image 
-                                Source="{Binding ImageUrl}"
-                                HeightRequest="100"
-                                WidthRequest="100"/>
-                            <StackLayout
-                                VerticalOptions="Center">
-                                <Label 
-                                    Text="{Binding Name}" 
-                                    Style="{StaticResource LabelNameStyle}"/>
-                                <Label 
-                                    Text="{Binding Price, StringFormat='Price: {0:C}'}"
-                                    VerticalOptions="Center"
-                                    TextColor="#3A83AA"/>
+            <!--List of available products-->
+            <ListView 
+                ItemsSource="{Binding Checkout.Products}"
+                SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                RowHeight="110">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Appearing="ViewCell_Appearing">
+                            <StackLayout 
+                                Style="{StaticResource StackLayoutCellStyle}">
+                                <Image 
+                                    Source="{Binding ImageUrl}"
+                                    HeightRequest="100"
+                                    WidthRequest="100"/>
+                                <StackLayout
+                                    VerticalOptions="Center">
+                                    <Label 
+                                        Text="{Binding Name}" 
+                                        Style="{StaticResource LabelNameStyle}"/>
+                                    <Label 
+                                        Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                        VerticalOptions="Center"
+                                        TextColor="#3A83AA"/>
+                                </StackLayout>
+                                <Button 
+                                    Text="{Binding Quantity}" 
+                                    Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=Checkout}}" 
+                                    CommandParameter="{Binding .}"
+                                    Style="{StaticResource ButtonQuantityStyle}"/>
                             </StackLayout>
-                            <Button 
-                                Text="{Binding Quantity}" 
-                                Command="{Binding BindingContext.AddQuantityCommand, Source={x:Reference Name=Checkout}}" 
-                                CommandParameter="{Binding .}"
-                                Style="{StaticResource ButtonQuantityStyle}"/>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    
         <BoxView
             Color="Black"
             HeightRequest=".1"
@@ -90,7 +94,7 @@
         <!--Tabbs buttons-->
         <Grid 
             IsVisible="{Binding IsVisibleControlsInit}"
-            HeightRequest="60">
+            HeightRequest="70">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -100,20 +104,20 @@
 
             <Button 
                 Style="{StaticResource ButtonMenuCheckoutStyle}"
-                Text="Recently ordered"
+                Text="{x:Static res:CheckoutResource.ButtonRecentlyOrdered}"
                 Grid.Column="0"/>
             <Button 
                 Style="{StaticResource ButtonMenuCheckoutStyle}"
                 Command="{Binding NavigateToCatalogCommand}"
-                Text="Catalog" 
+                Text="{x:Static res:CheckoutResource.ButtonCatalog}" 
                 Grid.Column="1" />
             <Button 
                 Style="{StaticResource ButtonMenuCheckoutStyle}"
-                Text="Search" 
+                Text="{x:Static res:CheckoutResource.ButtonSearch}" 
                 Grid.Column="2" />
             <Button 
                 Style="{StaticResource ButtonMenuCheckoutStyle}"
-                Text="More" 
+                Text="{x:Static res:CheckoutResource.ButtonMore}" 
                 Grid.Column="3" />
         </Grid>
 

@@ -25,7 +25,6 @@
         <Style TargetType="SearchBar" x:Key="SearchBarStyle">
             <Setter Property="Opacity" Value=".7"/>
             <Setter Property="FontSize" Value="Subtitle"/>
-            <Setter Property="Placeholder" Value="Search products..."/>
             <Setter Property="PlaceholderColor" Value="#3A83AA"/>
             <Setter Property="CancelButtonColor" Value="#3A83AA"/>
         </Style>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:res="clr-namespace:Assessment.Resources"
              x:Class="Assessment.Views.ProductCatalogPage"
              x:Name="ProductCatalog"
              Title="Products">
@@ -18,7 +19,8 @@
                 Style="{StaticResource FrameSearchBarStyle}">
                 <SearchBar 
                     Style="{StaticResource SearchBarStyle}"
-                    Text="{Binding SearchText}" />
+                    Text="{Binding SearchText}"
+                    Placeholder="{x:Static res:ProductCatalogResource.SearchProducts}" />
             </Frame>
             <Frame
                 Style="{StaticResource FrameCarStyle}">
@@ -33,11 +35,11 @@
             Padding="10,0"
             Orientation="Horizontal">
             <Label
-                Text="Filter"
+                Text="{x:Static res:ProductCatalogResource.LabelFilter}"
                 TextColor="#3A83AA"/>
             <Label
                 HorizontalOptions="EndAndExpand"
-                Text="Sort By: Product Name"
+                Text="{x:Static res:ProductCatalogResource.LabelSort}"
                 TextColor="#3A83AA"/>
         </StackLayout>
 

@@ -1,5 +1,6 @@
 ﻿using Assessment.Data;
 using Assessment.Models;
+using Assessment.Resources;
 using Prism.Commands;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -100,10 +101,10 @@ namespace Assessment.ViewModels
             if (product != null)
             {
                 string result = await Application.Current.MainPage.DisplayPromptAsync(
-                               "Enter a number",
-                               "Please enter a number below:",
-                               "OK",
-                               "Cancel",
+                               ProductCatalogResource.Quantity,
+                               ProductCatalogResource.InsertNewAmount,
+                               ProductCatalogResource.OK,
+                               ProductCatalogResource.Cancel,
                                keyboard: Keyboard.Numeric);
 
                 if (result != null && int.TryParse(result, out var quantity) && quantity >= 0)
