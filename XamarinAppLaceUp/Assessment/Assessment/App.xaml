@@ -7,7 +7,7 @@
         <Style TargetType="Label" x:Key="LabelHeaderTittleStyle">
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="Text" Value="2069 - ARIA RESORT AND CASINO"/>
+            <Setter Property="Text" Value="2069 - ARIA RESORT &amp; CASINO"/>
             <Setter Property="FontSize" Value="Large"/>
         </Style>
         <Style TargetType="Label" x:Key="LabelHeaderSubtittleStyle">
